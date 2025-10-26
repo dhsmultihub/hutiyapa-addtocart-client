@@ -1,11 +1,11 @@
 'use client'
 
-import Header from '../components/Header'
+// import Header from '../components/Header'
 import CartPage from '../features/cart/pages/CartPage'
-import CartFeatures from '../features/cart/components/CartFeatures'
+// import CartFeatures from '../features/cart/components/CartFeatures'
 import { useCart } from '../features/cart/hooks/useCart'
 
-function DemoToolbar() {
+export function _DemoToolbar() {
   const { add, clear } = useCart()
   return (
     <div className="max-w-7xl mx-auto px-4 py-4 border-b border-gray-200 bg-gray-50">
@@ -13,42 +13,41 @@ function DemoToolbar() {
         <h2 className="text-sm font-medium text-gray-600 mr-4">Demo Products:</h2>
         <button
           onClick={() =>
-            add({ 
-              id: 'sku-101', 
-              title: '501® Men\'s Fit Jeans - Adv Stretch', 
-              price: 119.90, 
-              imageUrl: undefined, 
-              quantity: 1 
+            add({
+              id: 'sku-101',
+              title: '501® Men\'s Fit Jeans - Adv Stretch',
+              price: 119.90,
+              quantity: 1
             })
           }
           className="px-3 py-1 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50"
         >
           Add Jeans
         </button>
-        <button 
-          onClick={() => add({ 
-            id: 'sku-202', 
-            title: 'Long Sleeve Graphic Tee', 
-            price: 49.90, 
-            quantity: 1 
+        <button
+          onClick={() => add({
+            id: 'sku-202',
+            title: 'Long Sleeve Graphic Tee',
+            price: 49.90,
+            quantity: 1
           })}
           className="px-3 py-1 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50"
         >
           Add T-Shirt
         </button>
-        <button 
-          onClick={() => add({ 
-            id: 'sku-303', 
-            title: 'Levi\'s® Wellthread™ Sweatshirt', 
-            price: 79.90, 
-            quantity: 1 
+        <button
+          onClick={() => add({
+            id: 'sku-303',
+            title: 'Levi\'s® Wellthread™ Sweatshirt',
+            price: 79.90,
+            quantity: 1
           })}
           className="px-3 py-1 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50"
         >
           Add Sweatshirt
         </button>
-        <button 
-          onClick={clear} 
+        <button
+          onClick={clear}
           className="px-3 py-1 bg-red-600 text-white rounded text-sm hover:bg-red-700 ml-4"
         >
           Clear Cart

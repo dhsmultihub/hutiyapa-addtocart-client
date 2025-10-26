@@ -1,0 +1,72 @@
+User-agent: *
+Allow: /
+
+# Allow all search engines to crawl the site
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+# Disallow crawling of sensitive areas
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /checkout/
+Disallow: /cart/
+Disallow: /profile/
+Disallow: /orders/
+Disallow: /wishlist/
+Disallow: /login/
+Disallow: /register/
+Disallow: /password-reset/
+Disallow: /email-verify/
+
+# Disallow crawling of temporary files
+Disallow: /*.json$
+Disallow: /*.xml$
+Disallow: /*.txt$
+Disallow: /*.log$
+
+# Disallow crawling of search results
+Disallow: /search?*
+Disallow: /search/*
+
+# Disallow crawling of user-specific content
+Disallow: /user/
+Disallow: /account/
+Disallow: /settings/
+
+# Allow crawling of important pages
+Allow: /products/
+Allow: /categories/
+Allow: /blog/
+Allow: /about
+Allow: /contact
+Allow: /help
+Allow: /shipping
+Allow: /returns
+Allow: /privacy
+Allow: /terms
+
+# Sitemap location
+Sitemap: https://hutiyapa.com/sitemap.xml
+
+# Crawl delay (optional)
+Crawl-delay: 1
+
+# Host directive
+Host: https://hutiyapa.com

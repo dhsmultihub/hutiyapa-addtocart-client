@@ -1,6 +1,6 @@
 import { configureStore, combineReducers, Reducer } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
-import { 
+import {
   FLUSH,
   REHYDRATE,
   PAUSE,
@@ -10,11 +10,21 @@ import {
 } from 'redux-persist';
 import cartReducer from "./features/cart/redux/cart.slice";
 import addressReducer from "./features/address/redux/address.slice";
+import authReducer from "./features/auth/redux/auth.slice";
+import productsReducer from "./features/products/redux/products.slice";
+import uiReducer from "./features/ui/redux/ui.slice";
 import { cartTransform } from "./utils/persistTransforms";
+import { api } from "./services/api";
+import { loggerMiddleware, errorLoggerMiddleware, performanceMiddleware } from "./middleware/logger.middleware";
+import { analyticsMiddleware, pageViewMiddleware, errorTrackingMiddleware } from "./middleware/analytics.middleware";
 
 const rootReducer: Reducer = combineReducers({
   cart: cartReducer,
   address: addressReducer,
+  auth: authReducer,
+  products: productsReducer,
+  ui: uiReducer,
+  [api.reducerPath]: api.reducer,
 });
 
 // Dynamic import for storage to handle SSR
@@ -32,18 +42,18 @@ if (typeof window !== 'undefined') {
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["cart", "address"],
+  whitelist: ["cart", "address", "auth", "ui"],
   transforms: [cartTransform],
   serialize: true,
   timeout: 10000, // Add timeout to prevent hanging
   // Force reset for development
-  version: 2, // Increment this to reset localStorage
+  version: 3, // Increment this to reset localStorage
   debug: process.env.NODE_ENV === 'development',
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export const store = configureStore({
+export const store: any = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -71,9 +81,25 @@ export const store = configureStore({
           'cart/clear/pending',
           'cart/clear/fulfilled',
           'cart/clear/rejected',
+          // RTK Query actions
+          'api/executeQuery/pending',
+          'api/executeQuery/fulfilled',
+          'api/executeQuery/rejected',
+          'api/executeMutation/pending',
+          'api/executeMutation/fulfilled',
+          'api/executeMutation/rejected',
         ],
+        ignoredPaths: ['api'],
       },
-    }),
+    })
+      .concat(api.middleware)
+      .concat(loggerMiddleware)
+      .concat(errorLoggerMiddleware)
+      .concat(performanceMiddleware)
+      .concat(analyticsMiddleware)
+      .concat(pageViewMiddleware)
+      .concat(errorTrackingMiddleware),
+  devTools: process.env.NODE_ENV !== 'production',
 });
 
 // Create persistor with error handling
@@ -89,7 +115,7 @@ persistor.subscribe(() => {
   }
 });
 
-export type RootState = ReturnType<typeof store.getState>;
+export type RootState = any;
 export type AppDispatch = typeof store.dispatch;
 
 

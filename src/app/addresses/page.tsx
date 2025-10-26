@@ -16,21 +16,21 @@ export default function AddressesPage() {
     <div className="max-w-3xl mx-auto px-4 py-6">
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-semibold">Your Addresses</h1>
-        <button className="text-sm underline" onClick={()=>{ setEditDraft(null); setShowForm(true); }}>Add new</button>
+        <button className="text-sm underline" onClick={() => { setEditDraft(null); setShowForm(true); }}>Add new</button>
       </div>
-      <AddressList 
-        list={address.list} 
+      <AddressList
+        list={address.list}
         selectedId={address.selectedId}
-        onSelect={(id)=>dispatch(selectAddress(id))}
-        onEdit={(addr)=>{ setEditDraft(addr); setShowForm(true); }}
-        onRemove={(id)=>dispatch(removeAddress(id))}
+        onSelect={(id) => dispatch(selectAddress(id))}
+        onEdit={(addr) => { setEditDraft(addr); setShowForm(true); }}
+        onRemove={(id) => dispatch(removeAddress(id))}
       />
       {showForm && (
         <div className="mt-6">
-          <AddressForm 
-            initial={editDraft ?? undefined}
-            onCancel={()=>{ setShowForm(false); setEditDraft(null); }}
-            onSubmit={(addr)=>{ if (editDraft) dispatch(updateAddress(addr)); else dispatch(addAddress(addr)); setShowForm(false); setEditDraft(null); }}
+          <AddressForm
+            {...(editDraft ? { initial: editDraft } : {})}
+            onCancel={() => { setShowForm(false); setEditDraft(null); }}
+            onSubmit={(addr) => { if (editDraft) dispatch(updateAddress(addr)); else dispatch(addAddress(addr)); setShowForm(false); setEditDraft(null); }}
           />
         </div>
       )}

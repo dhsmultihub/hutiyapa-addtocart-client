@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+  
+  <!-- Homepage -->
+  <url>
+    <loc>https://hutiyapa.com/</loc>
+    <lastmod>2023-12-01T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Products -->
+  <url>
+    <loc>https://hutiyapa.com/products</loc>
+    <lastmod>2023-12-01T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Categories -->
+  <url>
+    <loc>https://hutiyapa.com/categories/electronics</loc>
+    <lastmod>2023-12-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://hutiyapa.com/categories/clothing</loc>
+    <lastmod>2023-12-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://hutiyapa.com/categories/books</loc>
+    <lastmod>2023-12-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://hutiyapa.com/categories/home-garden</loc>
+    <lastmod>2023-12-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://hutiyapa.com/categories/sports</loc>
+    <lastmod>2023-12-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Individual Products -->
+  <url>
+    <loc>https://hutiyapa.com/products/wireless-headphones</loc>
+    <lastmod>2023-12-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://hutiyapa.com/images/products/wireless-headphones.jpg</image:loc>
+      <image:title>Wireless Headphones</image:title>
+      <image:caption>High-quality wireless headphones with noise cancellation</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://hutiyapa.com/products/cotton-tshirt</loc>
+    <lastmod>2023-12-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://hutiyapa.com/images/products/cotton-tshirt.jpg</image:loc>
+      <image:title>Cotton T-Shirt</image:title>
+      <image:caption>Comfortable cotton t-shirt in various colors</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://hutiyapa.com/products/javascript-guide</loc>
+    <lastmod>2023-12-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://hutiyapa.com/images/products/javascript-guide.jpg</image:loc>
+      <image:title>JavaScript Guide</image:title>
+      <image:caption>Comprehensive guide to JavaScript programming</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Static Pages -->
+  <url>
+    <loc>https://hutiyapa.com/about</loc>
+    <lastmod>2023-12-01T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://hutiyapa.com/contact</loc>
+    <lastmod>2023-12-01T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://hutiyapa.com/help</loc>
+    <lastmod>2023-12-01T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://hutiyapa.com/privacy</loc>
+    <lastmod>2023-12-01T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://hutiyapa.com/terms</loc>
+    <lastmod>2023-12-01T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://hutiyapa.com/shipping</loc>
+    <lastmod>2023-12-01T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://hutiyapa.com/returns</loc>
+    <lastmod>2023-12-01T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Blog -->
+  <url>
+    <loc>https://hutiyapa.com/blog</loc>
+    <lastmod>2023-12-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://hutiyapa.com/blog/shopping-tips</loc>
+    <lastmod>2023-12-01T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://hutiyapa.com/blog/product-reviews</loc>
+    <lastmod>2023-12-01T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Search -->
+  <url>
+    <loc>https://hutiyapa.com/search</loc>
+    <lastmod>2023-12-01T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- User Account (lower priority) -->
+  <url>
+    <loc>https://hutiyapa.com/login</loc>
+    <lastmod>2023-12-01T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://hutiyapa.com/register</loc>
+    <lastmod>2023-12-01T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://hutiyapa.com/profile</loc>
+    <lastmod>2023-12-01T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://hutiyapa.com/orders</loc>
+    <lastmod>2023-12-01T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://hutiyapa.com/wishlist</loc>
+    <lastmod>2023-12-01T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <!-- Cart and Checkout (noindex) -->
+  <url>
+    <loc>https://hutiyapa.com/cart</loc>
+    <lastmod>2023-12-01T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.1</priority>
+  </url>
+
+  <url>
+    <loc>https://hutiyapa.com/checkout</loc>
+    <lastmod>2023-12-01T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.1</priority>
+  </url>
+
+</urlset>
