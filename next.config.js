@@ -18,12 +18,8 @@ const nextConfig = {
 
   // Experimental features for Next.js 14
   experimental: {
-    // Enable App Router
-    appDir: true,
     // Enable server components
     serverComponentsExternalPackages: ['@prisma/client'],
-    // Enable optimized package imports
-    optimizePackageImports: ['@reduxjs/toolkit', 'react-redux', 'axios'],
   },
 
   // Webpack configuration for development and production

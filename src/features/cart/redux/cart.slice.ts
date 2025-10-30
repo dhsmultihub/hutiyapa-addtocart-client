@@ -23,31 +23,9 @@ type CartState = {
 };
 
 const initialState: CartState = {
-  items: [
-    {
-      id: 'sku-101',
-      title: 'Cotton T-shirt',
-      price: 44.00,
-      imageUrl: undefined,
-      quantity: 1,
-    },
-    {
-      id: 'sku-202', 
-      title: 'Cotton T-shirt',
-      price: 44.00,
-      imageUrl: undefined,
-      quantity: 1,
-    },
-    {
-      id: 'sku-303',
-      title: 'Cotton T-shirt',
-      price: 44.00,
-      imageUrl: undefined,
-      quantity: 1,
-    }
-  ],
-  subtotal: 132.00,
-  totalQuantity: 3,
+  items: [],
+  subtotal: 0,
+  totalQuantity: 0,
   saved: [],
   couponCode: undefined,
   couponDiscount: 0,
@@ -105,37 +83,37 @@ const cartSlice = createSlice({
       state.items = [];
       recalc(state);
     },
-      applyCoupon: (state, action: PayloadAction<string>) => {
-        const code = action.payload.trim().toUpperCase();
-        let discount = 0;
-        // simple seasonal rules
-        if (code === 'SAVE10') {
-          discount = Math.round(state.subtotal * 0.10 * 100) / 100;
-        } else if (code === 'FESTIVE20') {
-          discount = state.subtotal >= 100 ? Math.round(state.subtotal * 0.20 * 100) / 100 : 0;
-        } else if (code === 'WELCOME50') {
-          discount = state.subtotal >= 200 ? 50 : 0;
-        } else {
-          discount = 0;
-        }
-        state.couponCode = discount > 0 ? code : undefined;
-        state.couponDiscount = discount;
-      },
-      clearCoupon: (state) => {
-        state.couponCode = undefined;
-        state.couponDiscount = 0;
-      },
-      applyGiftCard: (state, action: PayloadAction<{ code: string; amount: number }>) => {
-        const { code, amount } = action.payload;
-        const maxApplicable = Math.max(0, state.subtotal - state.couponDiscount);
-        const applied = Math.min(Math.max(0, Math.round(amount * 100) / 100), maxApplicable);
-        state.giftCardCode = applied > 0 ? code.trim().toUpperCase() : undefined;
-        state.giftCardAmountApplied = applied;
-      },
-      clearGiftCard: (state) => {
-        state.giftCardCode = undefined;
-        state.giftCardAmountApplied = 0;
-      },
+    applyCoupon: (state, action: PayloadAction<string>) => {
+      const code = action.payload.trim().toUpperCase();
+      let discount = 0;
+      // simple seasonal rules
+      if (code === 'SAVE10') {
+        discount = Math.round(state.subtotal * 0.10 * 100) / 100;
+      } else if (code === 'FESTIVE20') {
+        discount = state.subtotal >= 100 ? Math.round(state.subtotal * 0.20 * 100) / 100 : 0;
+      } else if (code === 'WELCOME50') {
+        discount = state.subtotal >= 200 ? 50 : 0;
+      } else {
+        discount = 0;
+      }
+      state.couponCode = discount > 0 ? code : undefined;
+      state.couponDiscount = discount;
+    },
+    clearCoupon: (state) => {
+      state.couponCode = undefined;
+      state.couponDiscount = 0;
+    },
+    applyGiftCard: (state, action: PayloadAction<{ code: string; amount: number }>) => {
+      const { code, amount } = action.payload;
+      const maxApplicable = Math.max(0, state.subtotal - state.couponDiscount);
+      const applied = Math.min(Math.max(0, Math.round(amount * 100) / 100), maxApplicable);
+      state.giftCardCode = applied > 0 ? code.trim().toUpperCase() : undefined;
+      state.giftCardAmountApplied = applied;
+    },
+    clearGiftCard: (state) => {
+      state.giftCardCode = undefined;
+      state.giftCardAmountApplied = 0;
+    },
     saveForLater: (state, action: PayloadAction<string>) => {
       const idx = state.items.findIndex((i) => i.id === action.payload);
       if (idx !== -1) {

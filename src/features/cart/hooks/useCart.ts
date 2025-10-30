@@ -1,47 +1,43 @@
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "../../../store";
 import { addItem, removeItem, setQuantity, clearCart, saveForLater, moveToCart, removeSaved, applyCoupon, clearCoupon, applyGiftCard, clearGiftCard } from "../redux/cart.slice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { fetchCart, thunkAddItem, thunkSetQty, thunkRemove, thunkClear } from "../redux/cart.thunks";
 
 export function useCart() {
   const dispatch = useDispatch<AppDispatch>();
   const { items, subtotal, totalQuantity, saved, couponCode, couponDiscount, giftCardCode, giftCardAmountApplied } = useSelector((s: RootState) => s.cart);
   const userId = "demo-user"; // replace with real user ID from auth when available
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
-    // If cart is empty, add demo items
-    if (items.length === 0) {
-      dispatch(addItem({ 
-        id: 'sku-101', 
-        title: '501® Men\'s Fit Jeans - Adv Stretch', 
-        price: 119.90, 
-        quantity: 1 
-      }));
-      dispatch(addItem({ 
-        id: 'sku-202', 
-        title: 'Long Sleeve Graphic Tee', 
-        price: 49.90, 
-        quantity: 1 
-      }));
-      dispatch(addItem({ 
-        id: 'sku-303', 
-        title: 'Levi\'s® Wellthread™ Sweatshirt', 
-        price: 79.90, 
-        quantity: 1 
-      }));
+    // Fetch cart from backend on mount
+    if (!isInitialized) {
+      console.log('🛒 Fetching cart from backend...');
+      dispatch(fetchCart({ userId }))
+        .unwrap()
+        .then((cartData) => {
+          console.log('✅ Cart fetched successfully:', cartData);
+          setIsInitialized(true);
+        })
+        .catch((error) => {
+          console.error('❌ Failed to fetch cart:', error);
+          // If fetch fails, initialize with empty cart
+          setIsInitialized(true);
+        });
     }
-  }, [dispatch, items.length]);
+  }, [dispatch, userId, isInitialized]);
 
   return {
     items,
     saved,
     subtotal,
     totalQuantity,
-  couponCode,
-  couponDiscount,
-  giftCardCode,
-  giftCardAmountApplied,
+    couponCode,
+    couponDiscount,
+    giftCardCode,
+    giftCardAmountApplied,
+    isLoading: !isInitialized,
     add: (p: { id: string; title: string; price: number; imageUrl?: string; quantity?: number }) =>
       dispatch(thunkAddItem({ userId, payload: p })),
     remove: (id: string) => dispatch(thunkRemove({ userId, id })),

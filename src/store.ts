@@ -42,13 +42,13 @@ if (typeof window !== 'undefined') {
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["cart", "address", "auth", "ui"],
+  whitelist: ["cart", "address", "auth"],
   transforms: [cartTransform],
   serialize: true,
-  timeout: 10000, // Add timeout to prevent hanging
+  timeout: 2000, // Reduced timeout for faster loading
   // Force reset for development
-  version: 3, // Increment this to reset localStorage
-  debug: process.env.NODE_ENV === 'development',
+  version: 4, // Increment this to reset localStorage
+  debug: false, // Disable debug to reduce console spam
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -58,47 +58,16 @@ export const store: any = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [
-          FLUSH,
-          REHYDRATE,
-          PAUSE,
-          PERSIST,
-          PURGE,
-          REGISTER,
-          // Also ignore async thunk actions
-          'cart/fetch/pending',
-          'cart/fetch/fulfilled',
-          'cart/fetch/rejected',
-          'cart/addItem/pending',
-          'cart/addItem/fulfilled',
-          'cart/addItem/rejected',
-          'cart/setQty/pending',
-          'cart/setQty/fulfilled',
-          'cart/setQty/rejected',
-          'cart/remove/pending',
-          'cart/remove/fulfilled',
-          'cart/remove/rejected',
-          'cart/clear/pending',
-          'cart/clear/fulfilled',
-          'cart/clear/rejected',
-          // RTK Query actions
-          'api/executeQuery/pending',
-          'api/executeQuery/fulfilled',
-          'api/executeQuery/rejected',
-          'api/executeMutation/pending',
-          'api/executeMutation/fulfilled',
-          'api/executeMutation/rejected',
-        ],
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
         ignoredPaths: ['api'],
       },
+      // Disable immutability check in development for better performance
+      immutableCheck: false,
     })
       .concat(api.middleware)
-      .concat(loggerMiddleware)
-      .concat(errorLoggerMiddleware)
-      .concat(performanceMiddleware)
-      .concat(analyticsMiddleware)
-      .concat(pageViewMiddleware)
-      .concat(errorTrackingMiddleware),
+      // Only add essential middleware
+      .concat(process.env.NODE_ENV === 'development' ? loggerMiddleware : [])
+      .concat(errorLoggerMiddleware),
   devTools: process.env.NODE_ENV !== 'production',
 });
 

@@ -11,7 +11,7 @@ export const APP_CONFIG = {
     NAME: 'E-commerce Cart',
     VERSION: '1.0.0',
     DESCRIPTION: 'Enterprise-grade e-commerce frontend with advanced cart management',
-    AUTHOR: 'Vikas Vaibhav (programmerviva)',
+    AUTHOR: 'VC (programmerviva)',
     URL: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
 } as const
 

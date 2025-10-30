@@ -1,25 +1,12 @@
 import './globals.css'
 import type { Metadata, Viewport } from 'next'
-import { Inter, Poppins } from 'next/font/google'
 import { Providers } from './providers'
 import Header from '@/components/layout/header'
 import Footer from '@/components/layout/footer'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-// Font optimization
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-})
-
-const poppins = Poppins({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-poppins',
-  display: 'swap',
-})
+// Using system fonts for faster loading - no Google Fonts dependency
 
 // Enhanced metadata for SEO
 export const metadata: Metadata = {
@@ -38,8 +25,8 @@ export const metadata: Metadata = {
     'typescript',
     'redux'
   ],
-  authors: [{ name: 'Vikas Vaibhav', url: 'https://github.com/programmerviva' }],
-  creator: 'Vikas Vaibhav (programmerviva)',
+  authors: [{ name: 'VC', url: 'https://github.com/programmerviva' }],
+  creator: 'VC (programmerviva)',
   publisher: 'E-commerce Cart System',
   formatDetection: {
     email: false,
@@ -105,17 +92,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
+    <html lang="en">
       <head>
         <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-        <link rel="manifest" href="/site.webmanifest" />
-        <meta name="msapplication-TileColor" content="#da532c" />
-        <meta name="theme-color" content="#ffffff" />
       </head>
-      <body className={`${inter.className} antialiased`}>
+      <body className="antialiased font-sans">
         <Providers>
           <div className="flex flex-col min-h-screen">
             <Header />
