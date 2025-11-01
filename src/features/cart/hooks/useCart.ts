@@ -20,37 +20,31 @@ export function useCart() {
   const [userId, setUserId] = useState<string>(getUserId());
   const [isInitialized, setIsInitialized] = useState(false);
   
-  // Listen for userId changes in localStorage (from DevUserSelector)
+  // Sync userId from localStorage (for DevUserSelector updates)
   useEffect(() => {
-    const handleStorageChange = () => {
+    const checkUserId = () => {
       const newUserId = getUserId();
       if (newUserId !== userId) {
+        console.log('🔄 User changed from', userId, 'to', newUserId);
         setUserId(newUserId);
-        // Re-fetch cart when user changes
-        setIsInitialized(false);
-        dispatch(fetchCart({ userId: newUserId }))
-          .unwrap()
-          .then(() => setIsInitialized(true))
-          .catch(() => setIsInitialized(true));
+        // Don't fetch here - the useEffect below will handle it when userId changes
       }
     };
     
-    // Listen to storage events
-    window.addEventListener('storage', handleStorageChange);
-    // Also check periodically (for same-tab updates)
-    const interval = setInterval(handleStorageChange, 500);
+    // Check periodically for localStorage changes
+    const interval = setInterval(checkUserId, 300);
     
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
       clearInterval(interval);
     };
-  }, [userId, dispatch]);
+  }, [userId]);
 
+  // Fetch cart when userId changes or on mount
   useEffect(() => {
-    // Only run once on mount
     let isMounted = true;
+    const currentUserId = userId;
     
-    console.log('🛒 Fetching cart from backend...');
+    console.log('🛒 Fetching cart from backend for userId:', currentUserId);
     
     // VERY short timeout - initialize immediately if backend slow
     const timeoutId = setTimeout(() => {
@@ -60,12 +54,12 @@ export function useCart() {
       }
     }, 2000); // 2 second timeout
 
-    dispatch(fetchCart({ userId }))
+    dispatch(fetchCart({ userId: currentUserId }))
       .unwrap()
       .then((cartData) => {
         if (isMounted) {
           clearTimeout(timeoutId);
-          console.log('✅ Cart fetched successfully:', cartData);
+          console.log('✅ Cart fetched successfully for', currentUserId, ':', cartData);
           setIsInitialized(true);
         }
       })
@@ -82,7 +76,7 @@ export function useCart() {
       isMounted = false;
       clearTimeout(timeoutId);
     };
-  }, []); // Empty deps - only run once on mount
+  }, [userId, dispatch]); // Run when userId changes
 
   return {
     items,

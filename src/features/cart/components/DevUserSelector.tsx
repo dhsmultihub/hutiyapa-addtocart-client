@@ -78,13 +78,37 @@ export default function DevUserSelector() {
     }
   };
 
-  const handleSelectUser = (selectedUserId: string) => {
-    setInputValue(selectedUserId);
+  const handleSelectUser = async (selectedUserId: string) => {
     setShowUsersList(false);
-    // Auto-switch to selected user
-    setTimeout(() => {
-      handleSwitchUser(selectedUserId);
-    }, 100);
+    setInputValue(selectedUserId);
+    
+    // Immediately switch to selected user (no setTimeout)
+    setIsLoading(true);
+    setMessage("🔄 Loading cart for user...");
+
+    try {
+      // Update localStorage first
+      localStorage.setItem("dev_cart_user_id", selectedUserId);
+      
+      // Fetch cart for the selected userId
+      await dispatch(fetchCart({ userId: selectedUserId })).unwrap();
+      setUserId(selectedUserId);
+      
+      // Trigger custom event for same-tab updates
+      window.dispatchEvent(new StorageEvent('storage', {
+        key: 'dev_cart_user_id',
+        newValue: selectedUserId,
+        storageArea: localStorage
+      }));
+      
+      setMessage(`✅ Cart loaded for user: ${selectedUserId}`);
+      setTimeout(() => setMessage(""), 3000);
+    } catch (error: any) {
+      setMessage(`❌ Failed to load cart: ${error?.message || "Unknown error"}`);
+      setTimeout(() => setMessage(""), 5000);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSwitchUser = async (userIdToUse?: string) => {
