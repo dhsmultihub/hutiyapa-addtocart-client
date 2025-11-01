@@ -1,7 +1,7 @@
 // API Configuration
 export const API_CONFIG = {
-    BASE_URL: process.env.NEXT_PUBLIC_CART_API_BASE_URL || 'http://localhost:8000/api/v1',
-    WS_URL: process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:8000/ws',
+    BASE_URL: process.env.NEXT_PUBLIC_CART_API_BASE_URL || 'http://localhost:8002/api/v1',
+    WS_URL: process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:8002/ws',
     TIMEOUT: 10000,
     RETRY_ATTEMPTS: 3,
 } as const
@@ -12,7 +12,7 @@ export const APP_CONFIG = {
     VERSION: '1.0.0',
     DESCRIPTION: 'Enterprise-grade e-commerce frontend with advanced cart management',
     AUTHOR: 'VC (programmerviva)',
-    URL: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
+    URL: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3002',
 } as const
 
 // Cart Configuration

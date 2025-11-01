@@ -11,9 +11,9 @@ const nextConfig = {
 
   // Environment variables
   env: {
-    NEXT_PUBLIC_CART_API_BASE_URL: process.env.NEXT_PUBLIC_CART_API_BASE_URL || 'http://localhost:8000/api/v1',
-    NEXT_PUBLIC_WS_URL: process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:8000/ws',
-    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
+    NEXT_PUBLIC_CART_API_BASE_URL: process.env.NEXT_PUBLIC_CART_API_BASE_URL || 'http://localhost:8002/api/v1',
+    NEXT_PUBLIC_WS_URL: process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:8002/ws',
+    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3002',
   },
 
   // Experimental features for Next.js 14
