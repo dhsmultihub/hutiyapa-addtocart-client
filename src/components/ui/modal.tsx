@@ -48,13 +48,17 @@ const Modal: React.FC<ModalProps> = ({
     React.useEffect(() => {
         if (isOpen) {
             setIsVisible(true)
+            // Store original overflow to restore it properly
+            const originalOverflow = document.body.style.overflow
             document.body.style.overflow = 'hidden'
+            
+            return () => {
+                // Restore original overflow on cleanup
+                document.body.style.overflow = originalOverflow || 'unset'
+            }
         } else {
             setIsVisible(false)
-            document.body.style.overflow = 'unset'
-        }
-
-        return () => {
+            // Ensure overflow is reset when modal closes
             document.body.style.overflow = 'unset'
         }
     }, [isOpen])
@@ -75,8 +79,6 @@ const Modal: React.FC<ModalProps> = ({
         }
     }, [isOpen, onClose])
 
-    if (!isOpen) return null
-
     const sizeClasses = {
         sm: 'max-w-sm',
         md: 'max-w-md',
@@ -91,15 +93,19 @@ const Modal: React.FC<ModalProps> = ({
         }
     }
 
+    // Don't render modal overlay if not open - prevents invisible blockers
+    if (!isOpen || !isVisible) return null
+
     return (
         <div
             className={cn(
                 'fixed inset-0 z-50 flex items-center justify-center p-4',
                 'bg-black/50 backdrop-blur-sm',
                 'transition-opacity duration-300',
-                isVisible ? 'opacity-100' : 'opacity-0'
+                'pointer-events-auto' // Ensure pointer events work
             )}
             onClick={handleOverlayClick}
+            style={{ pointerEvents: 'auto' }} // Force pointer events
         >
             <div
                 className={cn(

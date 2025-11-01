@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../store'
 import { ApiResponse, ApiError } from '../api/client'
@@ -188,8 +188,8 @@ export function useApiQuery<T = any>(
   }, [])
 
   // Execute with cache
-  const executeWithCache = useCallback(async (...args: any[]) => {
-    const key = cacheKey || JSON.stringify(args)
+  const executeWithCache = useCallback(async (...execArgs: any[]) => {
+    const key = cacheKey || JSON.stringify(execArgs)
     const cached = getCachedData(key)
     
     if (cached) {
@@ -197,12 +197,24 @@ export function useApiQuery<T = any>(
       return
     }
 
-    await actions.execute(...args)
-    
-    if (state.data) {
-      setCachedData(key, state.data)
+    // Execute the API call - the state will be updated by actions.execute
+    await actions.execute(...execArgs)
+  }, [cacheKey, getCachedData, actions])
+
+  // Cache data when state.data changes
+  useEffect(() => {
+    if (state.data && cacheKey) {
+      setCachedData(cacheKey, state.data)
     }
-  }, [cacheKey, getCachedData, setCachedData, actions, state.data])
+  }, [state.data, cacheKey, setCachedData])
+
+  // Memoize args to prevent infinite loops
+  const argsRef = useRef(args)
+  const argsString = useMemo(() => JSON.stringify(args), [args])
+  
+  useEffect(() => {
+    argsRef.current = args
+  }, [args])
 
   // Refetch on window focus
   useEffect(() => {
@@ -211,19 +223,20 @@ export function useApiQuery<T = any>(
     const handleFocus = () => {
       const now = Date.now()
       if (now - lastFetchRef.current > staleTime) {
-        executeWithCache(...args)
+        executeWithCache(...argsRef.current)
         lastFetchRef.current = now
       }
     }
 
     window.addEventListener('focus', handleFocus)
     return () => window.removeEventListener('focus', handleFocus)
-  }, [refetchOnWindowFocus, staleTime, executeWithCache, args])
+  }, [refetchOnWindowFocus, staleTime, executeWithCache])
 
-  // Execute on mount
+  // Execute on mount and when args change (using ref to avoid infinite loops)
   useEffect(() => {
-    executeWithCache(...args)
-  }, [executeWithCache, ...args])
+    executeWithCache(...argsRef.current)
+    // Only re-execute if args actually change (checked via argsString)
+  }, [executeWithCache, argsString])
 
   return [state, { ...actions, execute: executeWithCache }]
 }

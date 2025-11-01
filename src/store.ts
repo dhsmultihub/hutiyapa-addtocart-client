@@ -65,8 +65,8 @@ export const store: any = configureStore({
       immutableCheck: false,
     })
       .concat(api.middleware)
-      // Only add essential middleware
-      .concat(process.env.NODE_ENV === 'development' ? loggerMiddleware : [])
+      // Disable logger middleware to prevent console spam and performance issues
+      // .concat(process.env.NODE_ENV === 'development' ? loggerMiddleware : [])
       .concat(errorLoggerMiddleware),
   devTools: process.env.NODE_ENV !== 'production',
 });

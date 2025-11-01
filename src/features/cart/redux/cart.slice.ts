@@ -181,7 +181,11 @@ const cartSlice = createSlice({
       console.error('Failed to fetch cart:', action.error.message);
     });
     builder.addCase(thunkAddItem.rejected, (state, action) => {
-      console.error('Failed to add item:', action.error.message);
+      // Silent - optimistic update already handled it, backend sync failed
+      // Item is already in cart, just backend sync failed
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('⚠️ Backend sync failed for add item (item already in cart):', action.error.message);
+      }
     });
     builder.addCase(thunkSetQty.rejected, (state, action) => {
       console.error('Failed to set quantity:', action.error.message);

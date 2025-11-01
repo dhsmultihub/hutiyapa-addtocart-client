@@ -11,7 +11,21 @@ import { useRouter } from "next/navigation";
 
 export default function CartPage() {
   const router = useRouter();
-  const { items, saved, subtotal, totalQuantity, couponCode, couponDiscount, giftCardCode, giftCardAmountApplied, add, remove, setQty, clear, save, moveSavedToCart, removeSaved, applyCoupon, clearCoupon, applyGiftCard, clearGiftCard } = useCart();
+  const { items, saved, subtotal, totalQuantity, couponCode, couponDiscount, giftCardCode, giftCardAmountApplied, isLoading, add, remove, setQty, clear, save, moveSavedToCart, removeSaved, applyCoupon, clearCoupon, applyGiftCard, clearGiftCard } = useCart();
+
+  // Show loading state while cart is being fetched
+  if (isLoading) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 sm:py-6 bg-white min-h-screen">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading cart...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (items.length === 0) {
     return <EmptyCart />;

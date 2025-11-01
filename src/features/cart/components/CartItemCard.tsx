@@ -1,5 +1,6 @@
 import React from "react";
 import { FiX } from "react-icons/fi";
+import { formatCurrency } from "../../../utils/currency";
 
 type Props = {
   id: string;
@@ -63,7 +64,7 @@ export default function CartItemCard({
         
         {/* Mobile: Price shown here for small screens */}
         <div className="sm:hidden mt-1">
-          <div className="font-semibold text-base text-gray-900">€{price.toFixed(2)}</div>
+          <div className="font-semibold text-base text-gray-900">{formatCurrency(price)}</div>
         </div>
         
         {/* Quantity Controls */}
@@ -87,7 +88,7 @@ export default function CartItemCard({
 
       {/* Price and Remove - Desktop */}
       <div className="hidden sm:flex flex-col items-end gap-2">
-        <div className="font-semibold text-lg text-gray-900">€{price.toFixed(2)}</div>
+        <div className="font-semibold text-lg text-gray-900">{formatCurrency(price)}</div>
         {onSaveForLater && (
           <button 
             onClick={onSaveForLater}

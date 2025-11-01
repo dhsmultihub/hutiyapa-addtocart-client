@@ -16,7 +16,7 @@ export function _DemoToolbar() {
             add({
               id: 'sku-101',
               title: '501® Men\'s Fit Jeans - Adv Stretch',
-              price: 119.90,
+              price: 11990.00, // ₹11,990 (approximately $120 equivalent)
               quantity: 1
             })
           }
@@ -28,7 +28,7 @@ export function _DemoToolbar() {
           onClick={() => add({
             id: 'sku-202',
             title: 'Long Sleeve Graphic Tee',
-            price: 49.90,
+            price: 2990.00, // ₹2,990 (approximately $30 equivalent)
             quantity: 1
           })}
           className="px-3 py-1 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50"
@@ -39,7 +39,7 @@ export function _DemoToolbar() {
           onClick={() => add({
             id: 'sku-303',
             title: 'Levi\'s® Wellthread™ Sweatshirt',
-            price: 79.90,
+            price: 4990.00, // ₹4,990 (approximately $50 equivalent)
             quantity: 1
           })}
           className="px-3 py-1 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50"
@@ -60,6 +60,8 @@ export function _DemoToolbar() {
 export default function Home() {
   return (
     <div className="min-h-screen bg-white">
+      {/* Demo Toolbar for testing */}
+      <_DemoToolbar />
       <CartPage />
     </div>
   )

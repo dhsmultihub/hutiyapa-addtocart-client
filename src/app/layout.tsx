@@ -116,6 +116,8 @@ export default function RootLayout({
             draggable
             pauseOnHover
             theme="light"
+            style={{ pointerEvents: 'auto', zIndex: 9999 }}
+            enableMultiContainer={false}
           />
         </Providers>
       </body>

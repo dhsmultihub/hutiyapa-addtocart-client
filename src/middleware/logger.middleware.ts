@@ -29,12 +29,23 @@ class Logger {
             this.logs = this.logs.slice(-this.maxLogs)
         }
 
-        // Console logging in development
+        // Console logging in development (only errors and important actions)
         if (process.env.NODE_ENV === 'development') {
+            // Only log errors or specific actions to reduce spam
+            const importantActions = [
+                'persist/PERSIST',
+                'persist/REHYDRATE',
+                'cart/addItem',
+                'cart/removeItem',
+                'auth/loginSuccess',
+                'auth/logout'
+            ]
+            
             if (error) {
-                console.error(`[Redux] ${action}:`, error, state)
-            } else {
-                console.log(`[Redux] ${action}:`, state)
+                console.error(`[Redux] ${action}:`, error)
+            } else if (importantActions.some(act => action.includes(act))) {
+                // Only log action type, not full state
+                console.log(`[Redux] ${action}`)
             }
         }
     }

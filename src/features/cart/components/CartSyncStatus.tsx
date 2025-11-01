@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { useCart } from '../hooks/useCart'
 import { cartPersistence } from '../utils/cart-persistence'
 import { Button } from '@/components/ui/button'
@@ -36,6 +36,11 @@ export default function CartSyncStatus({ className }: CartSyncStatusProps) {
   const [syncing, setSyncing] = useState(false)
   const [syncError, setSyncError] = useState<string | null>(null)
 
+  const checkSyncStatus = useCallback(() => {
+    const status = cartPersistence.getSyncStatus()
+    setSyncStatus(status)
+  }, [])
+
   useEffect(() => {
     // Check initial sync status
     checkSyncStatus()
@@ -44,33 +49,12 @@ export default function CartSyncStatus({ className }: CartSyncStatusProps) {
     const interval = setInterval(checkSyncStatus, 30000) // Every 30 seconds
     
     return () => clearInterval(interval)
-  }, [])
+  }, [checkSyncStatus])
 
-  useEffect(() => {
-    // Auto-sync when cart changes
-    if (items.length > 0) {
-      debouncedSync()
-    }
-  }, [items, subtotal])
+  // Use useRef to store timeout so it persists across renders
+  const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
-  const checkSyncStatus = () => {
-    const status = cartPersistence.getSyncStatus()
-    setSyncStatus(status)
-  }
-
-  const debouncedSync = (() => {
-    let timeout: NodeJS.Timeout
-    return () => {
-      clearTimeout(timeout)
-      timeout = setTimeout(() => {
-        if (syncStatus.isOnline && !syncing) {
-          performSync()
-        }
-      }, 2000) // 2 second delay
-    }
-  })()
-
-  const performSync = async () => {
+  const performSync = useCallback(async () => {
     if (syncing) return
 
     setSyncing(true)
@@ -98,16 +82,42 @@ export default function CartSyncStatus({ className }: CartSyncStatusProps) {
       } else {
         setSyncError(result.message)
       }
-    } catch (error) {
+    } catch (error: any) {
       setSyncError(error.message)
     } finally {
       setSyncing(false)
     }
-  }
+  }, [syncing, items, subtotal])
 
-  const handleManualSync = () => {
+  const debouncedSync = useCallback(() => {
+    if (debounceTimeoutRef.current) {
+      clearTimeout(debounceTimeoutRef.current)
+    }
+    debounceTimeoutRef.current = setTimeout(() => {
+      setSyncStatus(prev => {
+        if (prev.isOnline && !syncing) {
+          performSync()
+        }
+        return prev
+      })
+    }, 2000) // 2 second delay
+  }, [syncing, performSync])
+
+  useEffect(() => {
+    // Auto-sync when cart changes
+    if (items.length > 0) {
+      debouncedSync()
+    }
+    return () => {
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current)
+      }
+    }
+  }, [items.length, subtotal, debouncedSync])
+
+  const handleManualSync = useCallback(() => {
     performSync()
-  }
+  }, [performSync])
 
   const getStatusIcon = () => {
     if (syncing) {

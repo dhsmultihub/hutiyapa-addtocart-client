@@ -11,6 +11,20 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     setIsClient(true)
+    
+    // Ensure body overflow is reset on mount - fixes stuck modals/overlays
+    if (typeof document !== 'undefined') {
+      document.body.style.overflow = 'unset'
+      document.body.style.pointerEvents = 'auto'
+    }
+    
+    // Cleanup on unmount
+    return () => {
+      if (typeof document !== 'undefined') {
+        document.body.style.overflow = 'unset'
+        document.body.style.pointerEvents = 'auto'
+      }
+    }
   }, [])
 
   // Render without PersistGate on server to avoid hydration issues

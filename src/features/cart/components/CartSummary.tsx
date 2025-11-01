@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
+import { formatCurrency } from "../../../utils/currency";
 
 type Props = {
   subtotal: number;
@@ -22,7 +23,7 @@ export default function CartSummary({ subtotal, totalQuantity, couponCode, coupo
   const [giftCardAmount, setGiftCardAmount] = useState<string>(giftCardAmountApplied ? String(giftCardAmountApplied) : "");
   const [shippingOption, setShippingOption] = useState("standard");
   
-  const shippingCost = shippingOption === "standard" ? 5.00 : 0;
+  const shippingCost = shippingOption === "standard" ? 500.00 : 0; // ₹500 for standard delivery in INR
   const afterCoupon = Math.max(0, subtotal - (couponDiscount || 0));
   const afterGift = Math.max(0, afterCoupon - (giftCardAmountApplied || 0));
   const total = afterGift + shippingCost;
@@ -34,7 +35,7 @@ export default function CartSummary({ subtotal, totalQuantity, couponCode, coupo
       {/* Items Count */}
       <div className="flex justify-between items-center py-2 sm:py-3 border-b border-gray-200">
         <span className="text-gray-600 text-sm sm:text-base">ITEMS {totalQuantity}</span>
-        <span className="font-semibold text-sm sm:text-base">€{subtotal.toFixed(2)}</span>
+        <span className="font-semibold text-sm sm:text-base">{formatCurrency(subtotal)}</span>
       </div>
       
       {/* Shipping */}
@@ -48,8 +49,8 @@ export default function CartSummary({ subtotal, totalQuantity, couponCode, coupo
             onChange={(e) => setShippingOption(e.target.value)}
             className="w-full p-2 sm:p-3 border border-gray-300 rounded-md appearance-none bg-white pr-8 sm:pr-10 text-xs sm:text-sm touch-friendly"
           >
-            <option value="standard">Standard Delivery - €5.00</option>
-            <option value="free">Free Delivery - €0.00</option>
+            <option value="standard">Standard Delivery - ₹500.00</option>
+            <option value="free">Free Delivery - ₹0.00</option>
           </select>
           <FiChevronDown className="absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={14} />
         </div>
@@ -81,7 +82,7 @@ export default function CartSummary({ subtotal, totalQuantity, couponCode, coupo
           )}
         </div>
         {couponCode && (
-          <p className="text-xs text-green-700 mt-2">Applied {couponCode}: -€{couponDiscount.toFixed(2)}</p>
+          <p className="text-xs text-green-700 mt-2">Applied {couponCode}: -{formatCurrency(couponDiscount)}</p>
         )}
       </div>
 
@@ -119,7 +120,7 @@ export default function CartSummary({ subtotal, totalQuantity, couponCode, coupo
           )}
         </div>
         {giftCardCode && (
-          <p className="text-xs text-green-700 mt-2">Applied {giftCardCode}: -€{giftCardAmountApplied.toFixed(2)}</p>
+          <p className="text-xs text-green-700 mt-2">Applied {giftCardCode}: -{formatCurrency(giftCardAmountApplied)}</p>
         )}
       </div>
       
@@ -127,23 +128,23 @@ export default function CartSummary({ subtotal, totalQuantity, couponCode, coupo
       <div className="py-3 sm:py-4 mb-4 sm:mb-6">
         <div className="flex justify-between items-center">
           <span className="text-base sm:text-lg font-semibold">TOTAL PRICE</span>
-          <span className="text-lg sm:text-xl font-bold">€{total.toFixed(2)}</span>
+          <span className="text-lg sm:text-xl font-bold">{formatCurrency(total)}</span>
         </div>
         {couponDiscount > 0 && (
           <div className="flex justify-between text-xs text-gray-600 mt-1">
             <span>Coupon discount</span>
-            <span>-€{couponDiscount.toFixed(2)}</span>
+            <span>-{formatCurrency(couponDiscount)}</span>
           </div>
         )}
         {giftCardAmountApplied > 0 && (
           <div className="flex justify-between text-xs text-gray-600 mt-1">
             <span>Gift card</span>
-            <span>-€{giftCardAmountApplied.toFixed(2)}</span>
+            <span>-{formatCurrency(giftCardAmountApplied)}</span>
           </div>
         )}
         <div className="flex justify-between text-xs text-gray-600 mt-1">
           <span>Shipping</span>
-          <span>€{shippingCost.toFixed(2)}</span>
+          <span>{formatCurrency(shippingCost)}</span>
         </div>
       </div>
       

@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Enable React Strict Mode for better development experience
-  reactStrictMode: true,
+  // Disable React Strict Mode in development to prevent double renders and reduce compilations
+  reactStrictMode: process.env.NODE_ENV === 'production',
 
   // Enable SWC minification for better performance
   swcMinify: true,
@@ -24,11 +24,16 @@ const nextConfig = {
 
   // Webpack configuration for development and production
   webpack: (config, { dev, isServer }) => {
-    // Development optimizations
+    // Development optimizations - use native file watching instead of polling
     if (dev) {
       config.watchOptions = {
-        poll: 1000,
-        aggregateTimeout: 300,
+        // Remove polling - use native file system events for better performance
+        // Increase aggregate timeout to batch file changes (reduces recompilations)
+        aggregateTimeout: 500,
+        // Ignore common directories that don't need watching
+        ignored: ['**/node_modules', '**/.next', '**/.git', '**/dist', '**/coverage'],
+        // Follow symlinks only if needed
+        followSymlinks: false,
       }
     }
 
