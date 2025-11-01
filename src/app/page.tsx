@@ -4,6 +4,7 @@
 import CartPage from '../features/cart/pages/CartPage'
 // import CartFeatures from '../features/cart/components/CartFeatures'
 import { useCart } from '../features/cart/hooks/useCart'
+import DevUserSelector from '../features/cart/components/DevUserSelector'
 
 export function _DemoToolbar() {
   const { add, clear } = useCart()
@@ -60,6 +61,8 @@ export function _DemoToolbar() {
 export default function Home() {
   return (
     <div className="min-h-screen bg-white">
+      {/* Dev User Selector - for testing with real database */}
+      <DevUserSelector />
       {/* Demo Toolbar for testing */}
       <_DemoToolbar />
       <CartPage />

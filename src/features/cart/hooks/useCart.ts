@@ -7,8 +7,44 @@ import { fetchCart, thunkAddItem, thunkSetQty, thunkRemove, thunkClear } from ".
 export function useCart() {
   const dispatch = useDispatch<AppDispatch>();
   const { items, subtotal, totalQuantity, saved, couponCode, couponDiscount, giftCardCode, giftCardAmountApplied } = useSelector((s: RootState) => s.cart);
-  const userId = "demo-user"; // replace with real user ID from auth when available
+  
+  // Get userId from localStorage (for development testing) or default to demo-user
+  const getUserId = (): string => {
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('dev_cart_user_id');
+      return stored || 'demo-user';
+    }
+    return 'demo-user';
+  };
+  
+  const [userId, setUserId] = useState<string>(getUserId());
   const [isInitialized, setIsInitialized] = useState(false);
+  
+  // Listen for userId changes in localStorage (from DevUserSelector)
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const newUserId = getUserId();
+      if (newUserId !== userId) {
+        setUserId(newUserId);
+        // Re-fetch cart when user changes
+        setIsInitialized(false);
+        dispatch(fetchCart({ userId: newUserId }))
+          .unwrap()
+          .then(() => setIsInitialized(true))
+          .catch(() => setIsInitialized(true));
+      }
+    };
+    
+    // Listen to storage events
+    window.addEventListener('storage', handleStorageChange);
+    // Also check periodically (for same-tab updates)
+    const interval = setInterval(handleStorageChange, 500);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      clearInterval(interval);
+    };
+  }, [userId, dispatch]);
 
   useEffect(() => {
     // Only run once on mount

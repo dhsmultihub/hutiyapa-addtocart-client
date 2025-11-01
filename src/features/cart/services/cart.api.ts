@@ -139,6 +139,27 @@ export async function healthCheck(): Promise<{ status: string; timestamp: string
   }
 }
 
+/**
+ * Get users with carts from database (Development only)
+ */
+export async function getUsersWithCarts(): Promise<{
+  users: Array<{
+    userId: string | null;
+    sessionId?: string;
+    itemCount: number;
+    total?: number;
+    cartId?: string;
+  }>;
+}> {
+  try {
+    const res = await getClient().get("/cart/test/users");
+    return res.data;
+  } catch (error) {
+    console.error('Failed to fetch users with carts:', error);
+    return { users: [] };
+  }
+}
+
 export type CartItemDto = {
   id: string;
   productId?: string;
